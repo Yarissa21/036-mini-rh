@@ -9,6 +9,7 @@ import EmployeeForm from '../components/EmployeeForm';
 import { useEmployees, useCreateEmployee, useUpdateEmployee, useDeleteEmployee } from '../hooks/useEmployees';
 import type { EmployeeFormData } from '../schemas/employeeSchema';
 import { useHasRole } from '../components/RoleGuard';
+import { extractErrorMessage } from '../utils/errorHandler';
 
 const formFieldClass = 'w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent';
 
@@ -33,7 +34,14 @@ function EmployeesPage() {
 
   // Estado del SERVIDOR: la lista de empleados, filtrada. TanStack Query se encarga
   // de pedirla, cachearla y mantenerla sincronizada — no hay useEffect ni useState local.
-  const { data, isLoading: loading, isError, error: queryError } = useEmployees({
+  const {
+    data,
+    isLoading: loading,
+    isError,
+    error: queryError,
+    refetch,
+    isFetching,
+  } = useEmployees({
     search: search || undefined,
     department: selectedDepartment || undefined,
     status: selectedStatus || undefined,
@@ -197,11 +205,18 @@ function EmployeesPage() {
 
       {/* Estado de error */}
       {isError && (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-          <p className="text-red-700 font-medium">Error al cargar los empleados</p>
-          <p className="text-red-500 text-sm mt-1">
-            {(queryError as Error)?.message || 'Error desconocido'}
+        <div className="max-w-md mx-auto bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+          <p className="text-red-700 font-semibold">Error al cargar los empleados</p>
+          <p className="text-red-500 text-sm mt-1 mb-4">
+            {extractErrorMessage(queryError)}
           </p>
+          <button
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="px-4 py-2 bg-brand-800 hover:bg-brand-700 disabled:opacity-60 text-white rounded-lg text-sm font-medium transition-colors"
+          >
+            {isFetching ? 'Reintentando...' : 'Reintentar'}
+          </button>
         </div>
       )}
 
