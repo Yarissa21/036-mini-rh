@@ -35,3 +35,6 @@ src/
 ├── types/      # Interfaces y types de TypeScript compartidos
 └── utils/      # Funciones utilitarias y datos de ejemplo (mockData)
 ```
+
+## Despliegue de Neflity
+[Página web publicada: ](https://036-mini-rh-yarissa.netlify.app)
