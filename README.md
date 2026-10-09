@@ -36,5 +36,5 @@ src/
 └── utils/      # Funciones utilitarias y datos de ejemplo (mockData)
 ```
 
-## Despliegue de Neflity
-[Página web publicada: ](https://036-mini-rh-yarissa.netlify.app)
+## Despliegue de Netlify
+[Página web publicada](https://036-mini-rh-yarissa.netlify.app)
